@@ -1,0 +1,48 @@
+/* General Body Styles */
+body {
+    font-family: 'Oxygen Mono', monospace;
+    background-color: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container for Profile and Buttons */
+  .container {
+    text-align: center;
+  }
+  
+  /* Profile Image Styles */
+  .profile-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Makes the image circular */
+    margin-bottom: 20px;
+  }
+  
+  /* Social Media Buttons */
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between buttons */
+  }
+  
+  .button {
+    text-decoration: none;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #333; /* Darken button on hover */
+  }

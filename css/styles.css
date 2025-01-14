@@ -1,0 +1,138 @@
+/* General body styles */
+body {
+  font-family: 'Oxygen Mono', monospace;
+  background-color: #f9f9f9;
+  color: #585141;
+  margin: 0;
+  padding: 0;
+}
+
+/* Title and Snowflake Container */
+.title-container {
+  display: flex; /* Aligns title and snowflake horizontally */
+  align-items: center; /* Ensures vertical alignment */
+  justify-content: center; /* Centers the entire container */
+  margin-top: 50px;
+  margin-bottom: 30px;
+  position: relative; /* Keeps content in flow */
+}
+
+.monologue {
+  font-size: 24px;
+  font-weight: 400;
+  top: 25px;
+  left: calc(50% - 20px); 
+  color: #585141;
+  word-wrap: break-word;
+}
+
+/* Fixed Snowflake */
+.snowflake {
+  position: fixed; /* Keeps the snowflake in a fixed position */
+  font-size: 24px;
+  font-weight: 400;
+  top: 25px; /* 25px from the top of the page */
+  left: calc(50% + 120px); /* 120px to the right of the center of the page */
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Menu with LOCATE and EXAMINE */
+#menu {
+  display: flex;
+  justify-content: space-between; /* Split into two columns */
+  align-items: center; /* Ensure vertical alignment */
+  gap: 30px; /* Add padding between the columns */
+  width: 100%; /* Make the menu full width */
+  margin: 0 auto; /* Center the menu */
+  padding: 10px 20px 5px 20px; /* Top, Right, Bottom, Left padding */
+}
+
+.locate {
+  text-align: right; /* Align to the right edge of the left column */
+  flex: 1; /* Take up equal space for alignment */
+}
+
+.examine {
+  text-align: left; /* Align to the left edge of the right column */
+  flex: 1.1; /* Take up equal space for alignment */
+}
+
+/* Columns for Chronology and View Projects */
+.columns {
+  display: flex;
+  justify-content: space-between; /* Ensure the two elements are horizontally separated */
+  align-items: center; /* Ensure vertical alignment */
+  gap: 30px; /* Space between the columns */
+  max-width: 800px; /* Match the width of the menu */
+  margin: 20px auto; /* Center alignment and spacing */
+  padding: 0 20px; /* Add padding */
+}
+
+.chronology {
+  text-align: right; /* Align to the right edge of the left column */
+  flex: 1; /* Take up equal space for alignment */
+}
+
+.view-projects {
+  text-align: left; /* Align to the left edge of the right column */
+  flex: 1; /* Take up equal space for alignment */
+}
+
+/* Sticky Header */
+#menu.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%; /* Full-width sticky header */
+  padding: 15px 20px; /* Adjust padding for vertical alignment */
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+  z-index: 999;
+}
+
+/* Placeholder for Sticky Header */
+.placeholder {
+  height: 60px; /* Match the height of the sticky header */
+  visibility: hidden;
+}
+
+/* Placeholder for video or additional content */
+.video-placeholder {
+  background-color: #585141;
+  height: 300px;
+  width: 100%;
+  margin: 50px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-placeholder::before {
+  content: '▶';
+  font-size: 100px;
+  color: white;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  #menu {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  #menu.fixed {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .columns {
+    flex-direction: column; /* Stack columns vertically on small screens */
+    align-items: center;
+  }
+
+  .snowflake {
+    left: calc(50% + 60px); /* Adjust for smaller screens */
+  }
+}
