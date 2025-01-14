@@ -7,6 +7,15 @@ body {
   padding: 0;
 }
 
+.snowflake {
+  position: absolute;
+  top: 25px;
+  left: calc(50% + 120px);
+  font-size: 24px;
+  font-weight: 400;
+  z-index: 1000;
+}
+
 /* Title and Snowflake Container */
 .title-container {
   display: flex; /* Aligns title and snowflake horizontally */
@@ -47,9 +56,30 @@ body {
   padding: 10px 20px 5px 20px; /* Top, Right, Bottom, Left padding */
 }
 
-.locate {
-  text-align: right; /* Align to the right edge of the left column */
-  flex: 1; /* Take up equal space for alignment */
+/* LOCATE link */
+a.locate {
+  flex: 1; /* Keep the flex behavior for alignment */
+  text-align: right; /* Align the text to the right */
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use the inherited text color */
+  padding: 0; /* Ensure no extra padding */
+  margin: 0; /* Ensure no extra margin */
+  display: block; /* Prevent flex issues and align properly */
+}
+
+/* LOCATE hover effect */
+a.locate:hover {
+  text-decoration: underline; /* Add underline on hover */
+  text-underline-offset: 3px; /* Add padding between text and underline */
+  cursor: pointer; /* Show pointer cursor for hover */
+}
+
+/* Ensure #menu keeps its layout */
+#menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px; /* Keep spacing between "LOCATE" and "EXAMINE" */
 }
 
 .examine {
