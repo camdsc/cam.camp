@@ -16,6 +16,41 @@ body {
   font-size: 24px;
   font-weight: 400;
   z-index: 1000;
+  transition: transform 0.7s cubic-bezier(0.42, 0, 0.58, 1); /* Smooth animation curve */
+}
+
+/* Hover spin */
+.snowflake:hover {
+  transform: rotate(360deg); /* Rotate 360 degrees */
+}
+
+/* Animation keyframes for toggle spin */
+@keyframes spin-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counterclockwise {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* Spin clockwise */
+.snowflake.spin-clockwise {
+  animation: spin-clockwise 0.7s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+/* Spin counterclockwise */
+.snowflake.spin-counterclockwise {
+  animation: spin-counterclockwise 0.7s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 /* Title and Snowflake Container */
@@ -44,7 +79,7 @@ body {
   align-items: center; /* Center vertically */
   gap: 50px; /* Space between LOCATE and EXAMINE */
   width: 100%;
-  max-width: 800px; /* Prevent it from stretching too far */
+  max-width: 100%; /* Prevent it from stretching too far */
   margin: 0 auto;
   padding: 10px 0;
   box-sizing: border-box;
@@ -59,7 +94,6 @@ body {
   width: 100%; /* Full-width sticky header */
   padding: 15px 20px; /* Adjust padding */
   background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
   z-index: 999;
 }
 
@@ -122,4 +156,21 @@ a.locate:hover, .examine:hover {
   a.locate, .examine {
     font-size: 14px; /* Adjust text size for readability */
   }
+}
+
+/* Initially hidden expanded menu */
+#expanded-menu {
+  display: none; /* Hide by default */
+  margin-top: 10px; /* Add spacing below the main menu */
+  text-align: center; /* Center-align the text */
+}
+
+/* Show the expanded menu when active */
+#expanded-menu.active {
+  display: flex; /* Display as flexbox for layout */
+  justify-content: space-between; /* Separate columns */
+  align-items: center; /* Center vertically */
+  gap: 30px; /* Add space between columns */
+  max-width: 800px; /* Match the layout */
+  margin: 20px auto; /* Center alignment and spacing */
 }

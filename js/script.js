@@ -52,3 +52,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // Set initial positions on page load
   setSnowflakePosition();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const snowflake = document.querySelector(".snowflake"); // Snowflake element
+  const expandedMenu = document.getElementById("expanded-menu"); // Expanded menu container
+  let isExpanded = false; // Track whether the menu is expanded
+
+  // Handle snowflake click
+  snowflake.addEventListener("click", () => {
+    if (window.innerWidth <= 768) {
+      // Toggle expanded menu visibility
+      isExpanded = !isExpanded;
+      expandedMenu.classList.toggle("active", isExpanded);
+
+      // Add spinning animation to snowflake
+      const animationClass = isExpanded ? "spin-clockwise" : "spin-counterclockwise";
+      snowflake.classList.add(animationClass);
+
+      // Remove the animation class after animation ends
+      setTimeout(() => {
+        snowflake.classList.remove(animationClass);
+      }, 700); // Match the animation duration (0.7s)
+    }
+  });
+});
