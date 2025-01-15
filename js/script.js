@@ -1,36 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const menu = document.getElementById("menu"); // The menu containing LOCATE and EXAMINE
-  const menuTopOffset = menu.offsetTop; // Get the position of the menu
+  const menu = document.getElementById("menu"); // Menu container
+  const menuTopOffset = menu.offsetTop; // Get the menu position
 
   // Create a placeholder for the menu
   const placeholder = document.createElement("div");
   placeholder.className = "placeholder";
   placeholder.style.height = `${menu.offsetHeight}px`; // Match the height of the menu
-  placeholder.style.display = "none"; // Hide by default
+  placeholder.style.display = "none"; // Hide placeholder initially
   menu.parentNode.insertBefore(placeholder, menu);
 
-  // Snowflake scrolling logic
-  const snowflake = document.querySelector(".snowflake"); // The snowflake element
-  const snowflakeStopPoint = 50; // Adjust this value to determine where the snowflake stops
+  const snowflake = document.querySelector(".snowflake"); // Snowflake element
+  const snowflakeStopPoint = 50; // Where the snowflake stops
 
-  // Scroll event listener
-  window.addEventListener("scroll", () => {
-    // Sticky menu logic
-    if (window.scrollY >= menuTopOffset) {
-      menu.classList.add("fixed"); // Add sticky class to menu
-      placeholder.style.display = "block"; // Show placeholder to prevent jump
+  const setSnowflakePosition = () => {
+    if (window.innerWidth <= 768) {
+      // Mobile-specific snowflake position
+      snowflake.style.left = "auto";
+      snowflake.style.right = "20px";
     } else {
-      menu.classList.remove("fixed"); // Remove sticky class
+      // Desktop-specific snowflake position
+      snowflake.style.left = "calc(50% + 120px)";
+      snowflake.style.right = "auto";
+    }
+
+    // Scroll behavior for snowflake
+    if (window.scrollY >= snowflakeStopPoint) {
+      snowflake.style.position = "fixed";
+      snowflake.style.top = "10px";
+    } else {
+      snowflake.style.position = "absolute";
+      snowflake.style.top = "17px";
+    }
+  };
+
+  // Ensure menu stays fixed and snowflake behaves correctly on scroll
+  window.addEventListener("scroll", () => {
+    if (window.scrollY >= menuTopOffset) {
+      menu.classList.add("fixed");
+      placeholder.style.display = "block"; // Show placeholder to prevent layout shift
+    } else {
+      menu.classList.remove("fixed");
       placeholder.style.display = "none"; // Hide placeholder
     }
 
-    // Snowflake position logic
-    if (window.scrollY >= snowflakeStopPoint) {
-      snowflake.style.position = "fixed"; // Fix the snowflake
-      snowflake.style.top = "25px"; // Keep it at the top of the viewport
-    } else {
-      snowflake.style.position = "absolute"; // Allow it to scroll
-      snowflake.style.top = "16px"; // Reset its position
-    }
+    setSnowflakePosition(); // Update snowflake position
   });
+
+  // Ensure snowflake position is updated on window resize
+  window.addEventListener("resize", setSnowflakePosition);
+
+  // Set initial positions on page load
+  setSnowflakePosition();
 });
