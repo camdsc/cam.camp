@@ -1,0 +1,44 @@
+/* Homepage-specific header styles */
+
+/* Snowflake specific to landing page */
+.snowflake {
+    position: absolute;
+    top: 25px;
+    left: calc(50% + 120px); /* Default for desktop */
+    font-size: 24px;
+    font-weight: 400;
+    z-index: 1000;
+    transition: transform 0.7s cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  
+  .snowflake:hover {
+    transform: rotate(360deg);
+  }
+  
+  /* Title container specific to landing page */
+  .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  /* Placeholder for homepage-specific header space */
+  .placeholder {
+    height: 60px;
+    visibility: hidden;
+  }
+  
+  /* Sticky menu behavior for homepage */
+  #menu.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    z-index: 999;
+  }

@@ -174,3 +174,28 @@ a.locate:hover, .examine:hover {
   max-width: 800px; /* Match the layout */
   margin: 20px auto; /* Center alignment and spacing */
 }
+
+/* Align "CHRONOLOGY" and "VIEW PROJECTS" like the menu */
+.columns {
+  display: flex; /* Enable flexbox layout */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  gap: 50px; /* Space between items */
+  width: 100%; /* Full width */
+  margin: 20px auto; /* Center the content and add spacing */
+  padding: 10px 0; /* Add padding for vertical space */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.chronology, .projects {
+  font-size: 16px; /* Match the font size of LOCATE and EXAMINE */
+  text-align: center; /* Center-align text */
+  color: inherit; /* Use the same color as the page text */
+  text-decoration: none; /* Remove underline for consistency */
+}
+
+.chronology:hover, .projects:hover {
+  text-decoration: underline; /* Add underline on hover */
+  text-underline-offset: 3px; /* Slight offset for visibility */
+  color: inherit; /* Use the same color as the page text */
+}

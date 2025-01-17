@@ -1,0 +1,3 @@
+Need to compartmentalize styles.css instead of using it for everything
+Or is that perfectly fine practice? Does it really matter that much?
+
