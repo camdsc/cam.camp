@@ -1,0 +1,136 @@
+/* General Header Styles */
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: top 0.3s ease-in-out;
+  }
+  
+  /* Menu Styles */
+  #menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 50px;
+    box-sizing: border-box;
+  }
+  
+  /* Snowflake Styles */
+  .snowflake {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.7s cubic-bezier(0.42, 0, 0.58, 1); /* Smooth spin */
+  }
+  
+  /* Adjust snowflake position for desktop */
+  @media (min-width: 769px) {
+    .snowflake {
+      top: 9px;
+      left: calc(50% + 120px);
+      right: auto;
+    }
+  }
+  
+  /* Snowflake Animations */
+  @keyframes spin-clockwise {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spin-counterclockwise {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .snowflake.spin-clockwise {
+    animation: spin-clockwise 0.7s cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  
+  .snowflake.spin-counterclockwise {
+    animation: spin-counterclockwise 0.7s cubic-bezier(0.42, 0, 0.58, 1);
+  }
+  
+  /* Expanded Menu */
+  #expanded-menu {
+    display: none;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  #expanded-menu.active {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping unless forced */
+    justify-content: center; /* Center-align items */
+    align-items: center;
+    gap: 50px; /* Adjust gap for consistent spacing */
+    max-width: 800px;
+    margin: 20px auto;
+  }
+  
+  /* Common Link Styles */
+  a.locate, .examine, .chronology, .view-projects {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color */
+    text-align: center; /* Center-align text */
+    margin: 0;
+    padding: 0;
+    display: inline-block; /* Ensure proper alignment */
+    font-size: 16px;
+    font-family: 'Oxygen Mono', monospace; /* Match desired font */
+    outline: none; /* Remove blue outline */
+    white-space: nowrap; /* Prevent links from breaking into multiple lines */
+  }
+  
+  /* Hover Effects for All Links */
+  a.locate:hover, .examine:hover, .chronology:hover, .view-projects:hover {
+    text-decoration: underline; /* Underline on hover */
+    text-underline-offset: 3px; /* Space between text and underline */
+  }
+  
+  /* Remove focus outline on click or keyboard focus */
+  a.locate:focus, .examine:focus, .chronology:focus, .view-projects:focus {
+    outline: none; /* No blue focus outline */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .snowflake {
+      top: 10px;
+      right: 20px;
+      left: auto;
+    }
+  
+    #menu {
+      flex-direction: row; /* Ensure horizontal layout remains */
+      gap: 20px;
+      padding: 15px 10px;
+    }
+  
+    #expanded-menu.active {
+      flex-wrap: wrap; /* Allow wrapping on mobile */
+      flex-direction: column; /* Stack items vertically */
+      justify-content: center; /* Center-align items */
+      gap: 20px; /* Space between items */
+    }
+  
+    a.locate, .examine, .chronology, .view-projects {
+      font-size: 16px; /* Ensure consistent text size on mobile */
+      padding: 10px 0; /* Add vertical padding */
+    }
+  }
