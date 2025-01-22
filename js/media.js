@@ -7,17 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const fetchMedia = async () => {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,createdTime)`
+          `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,createdTime,mimeType)`
         );
   
         const data = await response.json();
         if (data.files && data.files.length > 0) {
-          const mediaData = data.files.map(file => ({
-            id: file.id,
-            caption: file.name,
-            image: `https://drive.google.com/uc?export=view&id=${file.id}`,
-            date: file.createdTime,
-          }));
+          const mediaData = data.files
+            .filter(file => file.mimeType.startsWith("image/")) // Only include images
+            .map(file => ({
+              id: file.id,
+              caption: file.name,
+              image: `https://drive.google.com/uc?export=view&id=${file.id}`,
+              date: file.createdTime,
+            }));
   
           renderMedia(mediaData.sort((a, b) => new Date(b.date) - new Date(a.date))); // Sort newest to oldest
         } else {
@@ -44,11 +46,38 @@ document.addEventListener("DOMContentLoaded", () => {
   
         // Add click event to enlarge media
         mediaCard.addEventListener("click", () => {
-          alert(`Clicked on: ${media.caption}`);
-          // You can replace this alert with a modal popup to display the media
+          displayMediaModal(media); // Function to handle media modal
         });
   
         mediaContainer.appendChild(mediaCard);
+      });
+    };
+  
+    // Function to display a modal with enlarged media
+    const displayMediaModal = (media) => {
+      const modal = document.createElement("div");
+      modal.classList.add("media-modal");
+  
+      modal.innerHTML = `
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <img src="${media.image}" alt="${media.caption}">
+          <div class="media-caption">${media.caption}</div>
+        </div>
+      `;
+  
+      document.body.appendChild(modal);
+  
+      // Add event listener to close the modal
+      modal.querySelector(".close-modal").addEventListener("click", () => {
+        document.body.removeChild(modal);
+      });
+  
+      // Close modal on background click
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
       });
     };
   
