@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     const mediaContainer = document.getElementById("media-container");
-    const folderId = "1Wj5eBVJXGrn5bxDVIR8ybKKkCrc2-5kK"; // Replace with your Google Drive folder ID
-    const apiKey = "AIzaSyBM2i5vrVbfWl8cqmsgPshUr66SkyY4pbg"; // Replace with your Google Drive API key
+    const folderId = "1Wj5eBVJXGrn5bxDVIR8ybKKkCrc2-5kK"; // Your Google Drive folder ID
+    const apiKey = "AIzaSyBM2i5vrVbfWl8cqmsgPshUr66SkyY4pbg"; // Your API Key
   
     // Function to fetch media from Google Drive
     const fetchMedia = async () => {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,createdTime,webContentLink,mimeType)`
+          `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,createdTime,thumbnailLink,mimeType)`
         );
   
         const data = await response.json();
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(file => ({
               id: file.id,
               caption: file.name || "No Caption", // Fallback for missing name
-              image: file.webContentLink, // Use webContentLink for display
+              image: file.thumbnailLink, // Use thumbnailLink for display
               date: file.createdTime,
             }));
   
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="media-caption">${media.caption}</div>
         `;
   
-        // Add click event to display modal
         mediaCard.addEventListener("click", () => {
           displayMediaModal(media);
         });
@@ -68,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
       document.body.appendChild(modal);
   
-      // Close modal on clicking close button or outside modal content
       modal.querySelector(".close-modal").addEventListener("click", () => {
         document.body.removeChild(modal);
       });
