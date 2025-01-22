@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .filter(file => file.mimeType.startsWith("image/")) // Only include images
             .map(file => ({
               id: file.id,
-              caption: file.name,
-              image: file.webContentLink, // Use webContentLink
+              caption: file.name || "No Caption", // Fallback for missing name
+              image: file.webContentLink, // Use webContentLink for display
               date: file.createdTime,
             }));
   
@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="media-caption">${media.caption}</div>
         `;
   
+        // Add click event to display modal
         mediaCard.addEventListener("click", () => {
           displayMediaModal(media);
         });
@@ -59,14 +60,15 @@ document.addEventListener("DOMContentLoaded", () => {
   
       modal.innerHTML = `
         <div class="modal-content">
-          <span class="close-modal">&times;</span>
-          <img src="${media.image}" alt="${media.caption}">
+          <button class="close-modal" aria-label="Close Modal">&times;</button>
+          <img src="${media.image}" alt="${media.caption}" loading="lazy">
           <div class="media-caption">${media.caption}</div>
         </div>
       `;
   
       document.body.appendChild(modal);
   
+      // Close modal on clicking close button or outside modal content
       modal.querySelector(".close-modal").addEventListener("click", () => {
         document.body.removeChild(modal);
       });
