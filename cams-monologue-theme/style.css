@@ -22,7 +22,8 @@ body {
     line-height: 1.6;
     color: #000;
     background: #f9f9f9;
-    margin: 0 20%;
+    margin: 0;
+    padding: 0;
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -80,19 +81,17 @@ select option:hover {
 /* Header Styles */
 .site-header {
     position: relative;
-    padding-top: 50px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: transparent;
+    z-index: 100;
 }
 
 .title-container {
-    text-align: center;
-    margin-bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
     position: relative;
 }
 
@@ -100,58 +99,187 @@ select option:hover {
     font-family: 'Oxygen Mono', monospace;
     font-size: 24px;
     font-weight: 400;
-    color: #585141;
+    color: #000;
     white-space: nowrap;
 }
 
 .snowflake {
+    position: absolute;
+    top: 30px;
+    left: calc(50% + 120px);
     font-size: 24px;
-    cursor: pointer;
-    margin-left: 10px;
-    white-space: nowrap;
+    font-weight: 400;
+    z-index: 1000;
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.snowflake.fixed {
+    position: fixed;
+    top: 10px;
 }
 
 /* Menu Styles */
 #menu {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.menu-row {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
-}
-
-/* Menu items */
-#menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    align-items: center;
     gap: 100px;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    background: transparent;
 }
 
-#menu li {
+/* WordPress Menu Styles */
+.menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    width: 100%;
+}
+
+.menu-items li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: inline-block;
 }
 
-#menu a {
+.menu-items li a {
     font-family: 'Oxygen Mono', monospace;
     text-decoration: none;
-    color: #585141;
+    color: #000;
     font-size: 16px;
+    transition: opacity 0.3s ease;
     white-space: nowrap;
-    transition: all 0.3s ease;
+    border-bottom: none;
     text-transform: uppercase;
-    border-bottom: 1px solid transparent;
 }
 
-#menu a:hover {
-    border-bottom: 1px solid #585141;
+.menu-items li a:hover {
+    opacity: 0.7;
+    border-bottom: none;
+}
+
+/* Primary menu specific styles */
+#primary-menu {
+    width: 100%;
+}
+
+/* Secondary menu specific styles */
+#secondary-menu {
+    width: 100%;
+}
+
+#menu.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 15px 0;
+    background-color: #f9f9f9;
+    z-index: 999;
+    margin: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Expanded Menu */
+#expanded-menu {
+    display: none;
+    margin-top: 10px;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+
+#expanded-menu.active {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    max-width: 800px;
+    margin: 20px auto;
+    max-height: 100px; /* Adjust this value as needed */
+    opacity: 1;
+}
+
+/* Homepage specific styles */
+.homepage-header {
+    text-align: center;
+}
+
+.homepage-header #menu,
+.homepage-header #expanded-menu {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.columns {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px 0;
+}
+
+.chronology, .projects {
+    font-size: 16px;
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.chronology:hover, .projects:hover {
+    opacity: 0.7;
+}
+
+/* Reset WordPress theme styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+}
+
+.site-content {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+}
+
+/* Ensure the fixed menu spans full width */
+#menu.fixed {
+    margin-left: -20%;
+    margin-right: -20%;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        margin: 0 7%;
+    }
+    
+    .snowflake {
+        right: 5%;
+        left: auto;
+    }
+    
+    #menu, #expanded-menu.active {
+        gap: 50px;
+    }
 }
 
 /* Homepage specific menu styles */
@@ -169,7 +297,9 @@ select option:hover {
 
 /* Sticky header styles */
 .header-fixed .title-container {
-    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
 }
 
 .header-fixed .menu-row {
@@ -177,20 +307,13 @@ select option:hover {
     top: 0;
     left: 0;
     right: 0;
-    background: #f9f9f9;
-    z-index: 1000;
-    padding: 15px 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-fixed .snowflake {
     position: fixed;
-    top: 15px;
-    right: 20%;
-    z-index: 1001;
-    display: block;
+    z-index: 1000;
 }
 
 /* Animation for menu items */
@@ -201,11 +324,6 @@ select option:hover {
 .menu-hidden {
     opacity: 0;
     transform: translateY(-10px);
-}
-
-/* Content styles */
-.site-content {
-    margin-top: 40px;
 }
 
 /* Post and page content styles */
@@ -244,29 +362,6 @@ select option:hover {
     border-bottom: 1px solid #000;
 }
 
-/* Ensure the fixed menu spans full width */
-#menu.fixed {
-    margin-left: -20%;
-    margin-right: -20%;
-    padding-left: 20%;
-    padding-right: 20%;
-}
-
-@media (max-width: 768px) {
-    body {
-        margin: 0 7%;
-    }
-    
-    .menu-row,
-    #menu ul {
-        gap: 50px;
-    }
-
-    .header-fixed .snowflake {
-        right: 5%;
-    }
-}
-
 /* Remove bullet points from WordPress menu */
 .menu-items {
     list-style: none;
@@ -290,4 +385,28 @@ div[class*="social-"],
 .social-media,
 .social-icons {
     display: none !important;
+}
+
+/* Add JavaScript positioning helper class */
+.snowflake-fixed {
+    position: fixed !important;
+}
+
+/* Snowflake animations */
+@keyframes spin-clockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counterclockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+.spin-clockwise {
+    animation: spin-clockwise 0.7s ease-in-out;
+}
+
+.spin-counterclockwise {
+    animation: spin-counterclockwise 0.7s ease-in-out;
 } 

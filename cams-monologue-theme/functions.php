@@ -150,10 +150,13 @@ function cams_monologue_scripts() {
     ";
     wp_add_inline_style('cams-monologue-style', $custom_css);
 
-    // Add header.js
-    wp_enqueue_script('cams-monologue-header', get_template_directory_uri() . '/js/header.js', array(), _S_VERSION, true);
-
-    // Enqueue navigation script
-    wp_enqueue_script('cams-monologue-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
+    // Add the appropriate script based on the page
+    if (is_front_page()) {
+        // Homepage-specific script
+        wp_enqueue_script('cams-monologue-homepage', get_template_directory_uri() . '/js/homepage.js', array(), _S_VERSION, true);
+    } else {
+        // Basic navigation script for other pages
+        wp_enqueue_script('cams-monologue-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
+    }
 }
 add_action('wp_enqueue_scripts', 'cams_monologue_scripts'); 
