@@ -1,0 +1,21 @@
+/**
+ * Post Subtitle Block Styles
+ */
+
+/* Editor styles */
+.wp-block-cams-monologue-subtitle .post-subtitle-editor {
+    color: #777;
+    font-style: italic;
+    margin-top: -0.5em;
+    margin-bottom: 1.5em;
+    font-size: 1.1em;
+}
+
+/* Front-end styles */
+.post-subtitle {
+    color: #777;
+    font-style: italic;
+    margin-top: -0.5em;
+    margin-bottom: 1.5em;
+    font-size: 1.1em;
+} 

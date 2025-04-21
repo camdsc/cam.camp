@@ -12,8 +12,16 @@
 <div id="page" class="site">
     <header id="masthead" class="site-header">
         <div class="title-container">
-            <h1 class="monologue"><?php echo get_the_title(); ?></h1>
+            <h2 class="page-title">
+                <?php echo get_the_title(); ?>
+            </h2>
+            <div class="snowflake-wrapper">
+                <div class="snowflake" title="Return to homepage">
+                    ❄️
+                </div>
+            </div>
         </div>
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="home-link screen-reader-text"><?php bloginfo('name'); ?></a>
     </header>
 
     <div id="content" class="site-content"> 

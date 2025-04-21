@@ -4,7 +4,7 @@ Theme URI: https://cam.camp
 Author: Cam
 Author URI: https://cam.camp
 Description: A custom theme for cam's monologue
-Version: 1.0
+Version: 1.1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: cams-monologue
@@ -78,59 +78,127 @@ select option:hover {
     background: #f0f0f0;
 }
 
-/* Header Styles */
+/* Header Styles for Non-Homepage Pages */
 .site-header {
     position: relative;
     width: 100%;
     background: transparent;
     z-index: 100;
+    padding: 20px 0;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.site-header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background-color: #f9f9f9;
+    box-shadow: none;
+    padding: 10px 0;
+    margin: 0;
+    max-width: 100%;
 }
 
 .title-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
     position: relative;
+    margin: 0 auto;
+    max-width: 800px;
+    gap: 15px;
 }
 
-.monologue {
+/* Page title */
+.page-title {
     font-family: 'Oxygen Mono', monospace;
-    font-size: 24px;
+    font-size: 32px; /* h2 size */
     font-weight: 400;
     color: #000;
-    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-right: 10px; /* Move title to the left a bit */
 }
 
+/* Snowflake wrapper */
+.snowflake-wrapper {
+    display: inline-block;
+    margin-left: 10px;
+    position: relative;
+    left: 10px; /* Move snowflake to the right a bit */
+}
+
+/* Snowflake container */
 .snowflake {
-    position: absolute;
-    top: 30px;
-    left: calc(50% + 120px);
-    font-size: 24px;
-    font-weight: 400;
-    z-index: 1000;
-    transition: all 0.3s ease;
     cursor: pointer;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 24px; /* Size for the emoji */
+    line-height: 1;
+    text-align: center;
+    position: relative;
+    top: -8px; /* Move snowflake higher when not fixed */
 }
 
-.snowflake.fixed {
-    position: fixed;
-    top: 10px;
+/* Snowflake animation */
+.snowflake:hover {
+    transform: rotate(360deg);
+}
+
+/* Remove SVG-specific styles since we're now using an emoji */
+.snowflake-icon {
+    display: none; /* Hide this class since we don't need it anymore */
+}
+
+/* Regular Page specific adjustments */
+body:not(.home) .title-container {
+    justify-content: center;
+}
+
+/* Two Column Menu Structure */
+.two-column-menu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-direction: row;
+}
+
+.menu-column {
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.left-column {
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.right-column {
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+.text-right {
+    text-align: right !important;
+    width: 100%;
+}
+
+.text-left {
+    text-align: left !important;
+    width: 100%;
 }
 
 /* Menu Styles */
 #menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-    margin: 20px 0;
+    margin: 20px auto;
     transition: all 0.3s ease;
-    width: 100%;
-    max-width: 800px;
-    position: relative;
-    background: transparent;
 }
 
 /* WordPress Menu Styles */
@@ -138,9 +206,6 @@ select option:hover {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 100px;
     width: 100%;
 }
 
@@ -148,7 +213,19 @@ select option:hover {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: inline-block;
+    display: block;
+}
+
+/* Left column menu items */
+.left-column .menu-items li,
+.left-column .menu-items li a {
+    text-align: right !important;
+}
+
+/* Right column menu items */
+.right-column .menu-items li,
+.right-column .menu-items li a {
+    text-align: left !important;
 }
 
 .menu-items li a {
@@ -160,6 +237,7 @@ select option:hover {
     white-space: nowrap;
     border-bottom: none;
     text-transform: uppercase;
+    display: block; /* Ensure the link takes full width of its container */
 }
 
 .menu-items li a:hover {
@@ -167,34 +245,31 @@ select option:hover {
     border-bottom: none;
 }
 
-/* Primary menu specific styles */
-#primary-menu {
-    width: 100%;
-}
-
-/* Secondary menu specific styles */
-#secondary-menu {
-    width: 100%;
-}
-
+/* Menu fixed state */
 #menu.fixed {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    width: 100%;
+    width: 100vw;
     padding: 15px 0;
     background-color: #f9f9f9;
     z-index: 999;
     margin: 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: none;
+    max-width: 100%;
+}
+
+#menu.fixed .two-column-menu {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
 }
 
 /* Expanded Menu */
 #expanded-menu {
     display: none;
     margin-top: 10px;
-    text-align: center;
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
@@ -203,25 +278,24 @@ select option:hover {
 
 #expanded-menu.active {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-    max-width: 800px;
-    margin: 20px auto;
-    max-height: 100px; /* Adjust this value as needed */
+    max-height: 100px;
     opacity: 1;
 }
 
 /* Homepage specific styles */
 .homepage-header {
     text-align: center;
+    margin-top: 50px; /* Add some space at the top */
+}
+
+.homepage-header .title-container {
+    margin-bottom: 40px; /* Space between title and menu */
 }
 
 .homepage-header #menu,
 .homepage-header #expanded-menu {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .columns {
@@ -258,14 +332,6 @@ body {
     max-width: none;
 }
 
-/* Ensure the fixed menu spans full width */
-#menu.fixed {
-    margin-left: -20%;
-    margin-right: -20%;
-    padding-left: 20%;
-    padding-right: 20%;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
@@ -277,8 +343,13 @@ body {
         left: auto;
     }
     
-    #menu, #expanded-menu.active {
-        gap: 50px;
+    /* Keep the two-column layout on mobile */
+    .two-column-menu {
+        flex-direction: row;
+    }
+    
+    .menu-column {
+        width: 50%;
     }
 }
 
@@ -308,7 +379,7 @@ body {
     left: 0;
     right: 0;
     z-index: 999;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 
 .header-fixed .snowflake {
@@ -328,13 +399,103 @@ body {
 
 /* Post and page content styles */
 .entry-content {
-    max-width: 100%;
-    margin: 0 auto;
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 0 1em;
+    font-family: 'Oxygen Mono', monospace;
 }
 
 .entry-content p {
     margin-bottom: 1.5em;
     line-height: 1.8;
+}
+
+/* Button styling */
+.entry-content .button,
+.entry-content button,
+.entry-content input[type="button"],
+.entry-content input[type="submit"] {
+    display: inline-block;
+    padding: 0.75em 1.5em;
+    margin: 0 0.5em 1em 0;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Oxygen Mono', monospace;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.entry-content .button-primary,
+.entry-content .wp-block-button.is-style-primary .wp-block-button__link {
+    background: #000;
+    color: #fff;
+}
+
+.entry-content .button-secondary,
+.entry-content .wp-block-button.is-style-secondary .wp-block-button__link {
+    background: #585141;
+    color: #fff;
+}
+
+/* Form element styling */
+.entry-content input[type="text"],
+.entry-content input[type="email"],
+.entry-content input[type="url"],
+.entry-content input[type="password"],
+.entry-content input[type="search"],
+.entry-content input[type="number"],
+.entry-content textarea,
+.entry-content select {
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 100%;
+    font-family: 'Oxygen Mono', monospace;
+    margin-bottom: 1em;
+}
+
+.entry-content input[type="checkbox"],
+.entry-content input[type="radio"] {
+    margin-right: 0.5em;
+}
+
+/* Code and pre styling */
+.entry-content code {
+    background: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+/* Toggle content */
+.toggle-content {
+    display: none;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    padding-left: 0;
+    width: 100%;
+}
+
+.toggle-content.active {
+    display: block;
+}
+
+.toggle-button {
+    background: #f0f0f0;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    margin-bottom: 1.5em;
+    font-family: 'Oxygen Mono', monospace;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 0 !important;
+    position: relative;
+    left: 0 !important;
 }
 
 .entry-content h1,
@@ -343,14 +504,158 @@ body {
 .entry-content h4,
 .entry-content h5,
 .entry-content h6 {
-    margin: 2em 0 1em;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
     line-height: 1.4;
+    font-family: 'Oxygen Mono', monospace;
 }
 
+.entry-content h1 {
+    font-size: 2.5em;
+}
+
+.entry-content h2 {
+    font-size: 2em;
+}
+
+.entry-content h3 {
+    font-size: 1.5em;
+}
+
+.entry-content h4 {
+    font-size: 1.25em;
+}
+
+.entry-content h5 {
+    font-size: 1.1em;
+}
+
+.entry-content h6 {
+    font-size: 1em;
+}
+
+.entry-content ul,
+.entry-content ol {
+    margin-left: 0;
+    padding-left: 2em;
+}
+
+.entry-content ul li,
+.entry-content ol li {
+    margin-bottom: 0.5em;
+}
+
+/* Blockquotes */
+.entry-content blockquote {
+    border-left: 4px solid #000;
+    padding-left: 1.5em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1.5em;
+    font-style: italic;
+}
+
+/* Code blocks */
+.entry-content pre {
+    background: #f5f5f5;
+    padding: 1.5em;
+    overflow-x: auto;
+    margin-bottom: 1.5em;
+    font-family: monospace;
+}
+
+/* Tables */
+.entry-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+}
+
+.entry-content th,
+.entry-content td {
+    border: 1px solid #ddd;
+    padding: 0.75em;
+}
+
+.entry-content th {
+    background-color: #f5f5f5;
+}
+
+/* Images */
 .entry-content img {
     max-width: 100%;
     height: auto;
-    margin: 2em 0;
+    margin: 1.5em 0;
+}
+
+.entry-content figure {
+    margin: 1.5em 0;
+}
+
+.entry-content figcaption {
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+}
+
+/* Toggle List Styling */
+.entry-content details {
+    margin-bottom: 1em;
+    position: relative;
+    margin-left: 0;
+    width: 100%;
+}
+
+.entry-content details summary {
+    cursor: pointer;
+    position: relative;
+    list-style: none; /* Hide default marker */
+    padding-left: 1.5em; /* Space for our custom marker */
+    margin-left: -1.5em; /* Pull the summary back to align with content */
+    width: calc(100% + 1.5em); /* Ensure the summary spans the full width */
+    text-indent: 0; /* Prevent text indentation */
+}
+
+/* Hide the default disclosure triangle in all browsers */
+.entry-content details summary::-webkit-details-marker {
+    display: none;
+}
+
+.entry-content details summary::marker {
+    display: none;
+}
+
+/* Add our custom triangle */
+.entry-content details summary::before {
+    content: "▶";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    font-size: 0.8em;
+    color: #000;
+    width: 1.5em;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.entry-content details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+/* Ensure content inside details aligns properly */
+.entry-content details > * {
+    margin-left: 0;
+    padding-left: 0; /* Remove padding that was pushing content in */
+}
+
+.entry-content details > *:not(summary) {
+    margin-left: 0;
+    padding-left: 0; /* Let content align with other page content */
+}
+
+/* But don't add extra padding to the summary itself */
+.entry-content details summary ~ * {
+    margin-top: 0.5em;
 }
 
 /* Content links (not in header) */
@@ -390,9 +695,43 @@ div[class*="social-"],
 /* Add JavaScript positioning helper class */
 .snowflake-fixed {
     position: fixed !important;
+    top: 16px !important; /* Position fixed snowflake 6px lower */
 }
 
-/* Snowflake animations */
+/* Homepage Content Styles */
+.homepage-content {
+    margin: 40px auto;
+    max-width: 800px;
+}
+
+.homepage-content .entry-content {
+    margin-bottom: 40px;
+}
+
+.additional-content {
+    margin-top: 40px;
+}
+
+/* Make sure content is visible */
+.site-main {
+    min-height: 300px;
+}
+
+/* Accessibility */
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+/* Homepage specific animations */
 @keyframes spin-clockwise {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -409,4 +748,235 @@ div[class*="social-"],
 
 .spin-counterclockwise {
     animation: spin-counterclockwise 0.7s ease-in-out;
+}
+
+/* Homepage specific content styling */
+.homepage-header + #primary .entry-content {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 0 1em;
+}
+
+.homepage-header + #primary .entry-content h1,
+.homepage-header + #primary .entry-content h2,
+.homepage-header + #primary .entry-content h3,
+.homepage-header + #primary .entry-content h4,
+.homepage-header + #primary .entry-content h5,
+.homepage-header + #primary .entry-content h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    line-height: 1.4;
+    font-family: 'Oxygen Mono', monospace;
+}
+
+.homepage-header + #primary .entry-content p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+}
+
+/* WordPress Default Button Styling */
+.wp-block-button__link,
+.wp-element-button,
+.wpcf7-submit,
+.wp-block-button .wp-block-button__link,
+button.wp-block-button__link,
+.wp-block-file .wp-block-file__button {
+    display: inline-block;
+    padding: 0.75em 1.5em;
+    margin: 0 0.5em 1em 0;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Oxygen Mono', monospace;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    color: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+/* WordPress Primary Button */
+.wp-block-button.is-style-fill .wp-block-button__link,
+.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+    background: #000;
+    color: #fff;
+}
+
+/* WordPress Secondary Button */
+.wp-block-button.is-style-outline .wp-block-button__link {
+    background: transparent;
+    border: 2px solid #585141;
+    color: #585141;
+}
+
+/* WordPress Form Styling */
+.wp-block-form,
+.wpcf7-form,
+.wp-block-contact-form-7,
+form.wpcf7-form {
+    margin: 1.5em 0;
+}
+
+.wp-block-form input[type="text"],
+.wp-block-form input[type="email"],
+.wp-block-form input[type="url"],
+.wp-block-form input[type="password"],
+.wp-block-form input[type="search"],
+.wp-block-form input[type="number"],
+.wp-block-form input[type="tel"],
+.wp-block-form textarea,
+.wp-block-form select,
+.wpcf7-form input[type="text"],
+.wpcf7-form input[type="email"],
+.wpcf7-form input[type="url"],
+.wpcf7-form input[type="password"],
+.wpcf7-form input[type="search"],
+.wpcf7-form input[type="number"],
+.wpcf7-form input[type="tel"],
+.wpcf7-form textarea,
+.wpcf7-form select,
+.wp-block-contact-form-7 input,
+.wp-block-contact-form-7 textarea,
+.wp-block-contact-form-7 select {
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 100%;
+    font-family: 'Oxygen Mono', monospace;
+    margin-bottom: 1em;
+    font-size: 1em;
+}
+
+/* Make details open properly */
+.entry-content details[open] {
+    margin-bottom: 1.5em;
+}
+
+/* Additional WordPress form selectors */
+.wp-block-contact-form-7 input[type="submit"],
+.wpcf7-form input[type="submit"] {
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Make sure checkboxes and radio buttons look right */
+.wp-block-form input[type="checkbox"],
+.wp-block-form input[type="radio"],
+.wpcf7-form input[type="checkbox"],
+.wpcf7-form input[type="radio"] {
+    width: auto;
+    margin-right: 0.5em;
+}
+
+/* Make sure labels look right */
+.wpcf7-form label,
+.wp-block-form label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-family: 'Oxygen Mono', monospace;
+}
+
+/* Gutenberg block alignment fixes */
+.wp-block-columns {
+    margin-bottom: 1.5em;
+}
+
+.wp-block-column {
+    margin-bottom: 1em;
+}
+
+/* WordPress image captions */
+.wp-caption,
+.wp-block-image figcaption {
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+    font-style: italic;
+}
+
+/* WordPress custom colors support */
+.has-text-color {
+    color: inherit;
+}
+
+.has-background {
+    padding: 1em;
+}
+
+/* Ensure all toggle content and buttons align properly */
+body.home .entry-content .toggle-button,
+body.home #toggle-content,
+.entry-content > .toggle-button,
+.entry-content p > .toggle-button,
+.entry-content div > .toggle-button,
+.wp-block-button > .toggle-button,
+.wp-block-paragraph + .toggle-button,
+[class^="wp-block-"] + .toggle-button,
+p .toggle-button,
+p:has(.toggle-button),
+.entry-content > p:first-child > .toggle-button,
+.homepage-header + #primary .entry-content .toggle-button,
+.homepage-header + #primary .entry-content .toggle-content {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+    left: 0 !important;
+    position: relative !important;
+}
+
+/* Content inside toggle containers should be flush with other content */
+.toggle-content > * {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* Footer styling */
+.site-footer {
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.site-info {
+    text-align: center;
+    font-size: 0.9em;
+    color: #000;
+}
+
+/* Additional styling for the menu to ensure it remains horizontal */
+#menu, #expanded-menu {
+    flex-direction: row !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Override any WordPress styling that might be causing issues */
+.menu-items, 
+.menu-items ul, 
+.menu-items li, 
+#menu ul, 
+#menu li,
+#expanded-menu ul,
+#expanded-menu li {
+    float: none !important;
+    display: block !important;
+    text-align: inherit !important;
+}
+
+/* Ensure the columns display correctly */
+#menu .left-column, 
+#menu .right-column,
+#expanded-menu .left-column,
+#expanded-menu .right-column {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 50% !important;
 } 

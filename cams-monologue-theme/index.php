@@ -16,17 +16,7 @@ get_header();
             </article>
         <?php endwhile; ?>
     <?php else : ?>
-        <div class="columns">
-            <a href="<?php echo esc_url(home_url('/chronology')); ?>" class="chronology">CHRONOLOGY</a>
-            <a href="<?php echo esc_url(home_url('/projects')); ?>" class="projects">VIEW PROJECTS</a>
-        </div>
         
-        <!-- Video Placeholders -->
-        <div class="video-placeholder"></div>
-        <div class="video-placeholder"></div>
-        <div class="video-placeholder"></div>
-        <div class="video-placeholder"></div>
-        <div class="video-placeholder"></div>
     <?php endif; ?>
 </main>
 

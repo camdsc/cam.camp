@@ -8,7 +8,8 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('_S_VERSION')) {
-    define('_S_VERSION', '1.0.0');
+    // Replace timestamp with proper version number
+    define('_S_VERSION', '1.1.0');
 }
 
 /**
@@ -68,7 +69,7 @@ function cams_monologue_scripts() {
     // Enqueue Google Font
     wp_enqueue_style('oxygen-mono', 'https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap', array(), null);
 
-    // Enqueue theme stylesheet
+    // Enqueue theme stylesheet with cache busting
     wp_enqueue_style('cams-monologue-style', get_stylesheet_uri(), array(), _S_VERSION);
 
     // Add inline styles for consistent styling across all pages
@@ -150,7 +151,7 @@ function cams_monologue_scripts() {
     ";
     wp_add_inline_style('cams-monologue-style', $custom_css);
 
-    // Add the appropriate script based on the page
+    // Add the appropriate script based on the page with cache busting
     if (is_front_page()) {
         // Homepage-specific script
         wp_enqueue_script('cams-monologue-homepage', get_template_directory_uri() . '/js/homepage.js', array(), _S_VERSION, true);
@@ -159,4 +160,82 @@ function cams_monologue_scripts() {
         wp_enqueue_script('cams-monologue-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
     }
 }
-add_action('wp_enqueue_scripts', 'cams_monologue_scripts'); 
+add_action('wp_enqueue_scripts', 'cams_monologue_scripts');
+
+/**
+ * Customize the title tag for homepage to show only site name
+ */
+function cams_monologue_custom_title($title) {
+    // Only modify the title on the homepage
+    if (is_front_page() || is_home()) {
+        // Return only the site name without page title or separator
+        return get_bloginfo('name');
+    }
+    
+    // Return the default title format for other pages
+    return $title;
+}
+add_filter('pre_get_document_title', 'cams_monologue_custom_title', 999);
+
+/**
+ * Register custom block category
+ */
+function cams_monologue_block_categories($categories) {
+    return array_merge(
+        $categories,
+        array(
+            array(
+                'slug' => 'theme',
+                'title' => __('Cam\'s Monologue', 'cams-monologue'),
+                'icon'  => 'admin-appearance',
+            ),
+        )
+    );
+}
+add_filter('block_categories_all', 'cams_monologue_block_categories', 10, 1);
+
+/**
+ * Register custom blocks
+ */
+function cams_monologue_register_blocks() {
+    // Skip block registration if Gutenberg is not available
+    if (!function_exists('register_block_type')) {
+        return;
+    }
+    
+    // Register block script
+    wp_register_script(
+        'cams-monologue-subtitle-block',
+        get_template_directory_uri() . '/blocks/subtitle.js',
+        array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n'),
+        _S_VERSION
+    );
+    
+    // Register block styles
+    wp_register_style(
+        'cams-monologue-subtitle-style',
+        get_template_directory_uri() . '/blocks/subtitle.css',
+        array(),
+        _S_VERSION
+    );
+    
+    // Register the block
+    register_block_type('cams-monologue/subtitle', array(
+        'editor_script' => 'cams-monologue-subtitle-block',
+        'editor_style' => 'cams-monologue-subtitle-style',
+        'style' => 'cams-monologue-subtitle-style',
+    ));
+}
+add_action('init', 'cams_monologue_register_blocks');
+
+/**
+ * Add default subtitle block to new posts
+ */
+function cams_monologue_default_content($content, $post) {
+    // Only add to empty posts of type 'post'
+    if (empty($content) && $post->post_type === 'post') {
+        return '<!-- wp:cams-monologue/subtitle /-->';
+    }
+    return $content;
+}
+add_filter('default_content', 'cams_monologue_default_content', 10, 2); 

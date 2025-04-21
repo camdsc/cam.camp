@@ -6,15 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let isExpanded = false;
     
     console.log('Homepage JS loaded');
-    console.log('Menu found:', menu);
-    console.log('Snowflake found:', snowflake);
-    console.log('Expanded menu found:', expandedMenu);
     
     // Initial snowflake position - absolute to scroll with title
     if (snowflake) {
         snowflake.style.position = 'absolute';
-        snowflake.style.top = '30px';
-        snowflake.style.left = 'calc(50% + 120px)';
+        snowflake.style.top = '22px';
+        snowflake.style.left = 'calc(50% + 130px)';
         snowflake.style.zIndex = '1000';
         
         // Handle snowflake click for expanded menu
@@ -23,59 +20,51 @@ document.addEventListener('DOMContentLoaded', function() {
             isExpanded = !isExpanded;
             
             // Toggle the expanded menu visibility
-            if (expandedMenu) {
-                if (isExpanded) {
-                    console.log('Expanding menu');
-                    expandedMenu.style.display = 'flex'; // First make it visible
-                    // Use setTimeout to ensure display: flex takes effect before adding active class
-                    setTimeout(() => {
-                        expandedMenu.classList.add('active');
-                    }, 10);
-                } else {
-                    console.log('Collapsing menu');
-                    expandedMenu.classList.remove('active');
-                    // Wait for transition to complete before hiding
-                    setTimeout(() => {
-                        expandedMenu.style.display = 'none';
-                    }, 300); // Match transition duration
-                }
-                
-                // Add spin animation
-                const animationClass = isExpanded ? 'spin-clockwise' : 'spin-counterclockwise';
-                snowflake.classList.add(animationClass);
-                
-                // Remove animation class after animation ends
+            if (isExpanded) {
+                console.log('Expanding menu');
+                expandedMenu.style.display = 'flex'; // First make it visible
+                // Use setTimeout to ensure display: flex takes effect before adding active class
                 setTimeout(() => {
-                    snowflake.classList.remove(animationClass);
-                }, 700);
+                    expandedMenu.classList.add('active');
+                }, 10);
+            } else {
+                console.log('Collapsing menu');
+                expandedMenu.classList.remove('active');
+                // Wait for transition to complete before hiding
+                setTimeout(() => {
+                    expandedMenu.style.display = 'none';
+                }, 300); // Match transition duration
             }
-        });
-        
-        // Handle snowflake hover
-        snowflake.addEventListener('mouseover', function() {
-            snowflake.style.transform = 'rotate(360deg)';
-        });
-        
-        snowflake.addEventListener('mouseout', function() {
-            snowflake.style.transform = 'rotate(0deg)';
+            
+            // Add spin animation to snowflake
+            const animationClass = isExpanded ? 'spin-clockwise' : 'spin-counterclockwise';
+            snowflake.classList.add(animationClass);
+            
+            // Remove animation class after animation ends
+            setTimeout(() => {
+                snowflake.classList.remove(animationClass);
+            }, 700);
         });
     }
     
+    // Scrolling behavior for menu and snowflake
     if (menu) {
-        // Handle scroll behavior
         window.addEventListener('scroll', function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
+            // Handle snowflake position on scroll
             if (snowflake) {
                 const snowflakeRect = snowflake.getBoundingClientRect();
                 
                 // Snowflake becomes fixed when it reaches 10px from top
                 if (snowflakeRect.top <= 10) {
                     snowflake.style.position = 'fixed';
-                    snowflake.style.top = '10px';
+                    snowflake.style.top = '16px';
+                    snowflake.classList.add('snowflake-fixed');
                 } else {
                     snowflake.style.position = 'absolute';
-                    snowflake.style.top = '30px';
+                    snowflake.style.top = '22px';
+                    snowflake.classList.remove('snowflake-fixed');
                 }
             }
             
@@ -85,51 +74,30 @@ document.addEventListener('DOMContentLoaded', function() {
             if (menuRect.top <= 10) {
                 menu.classList.add('fixed');
                 menu.style.backgroundColor = '#f9f9f9';
-                menu.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
-            } else {
-                menu.classList.remove('fixed');
-                menu.style.backgroundColor = 'transparent';
-                menu.style.boxShadow = 'none';
-            }
-        });
-
-        // Create a placeholder for the menu
-        const placeholder = document.createElement('div');
-        placeholder.className = 'placeholder';
-        placeholder.style.height = `${menu.offsetHeight}px`;
-        placeholder.style.display = 'none';
-        menu.parentNode.insertBefore(placeholder, menu);
-        
-        // Ensure menu stays fixed and snowflake behaves correctly on scroll
-        window.addEventListener('scroll', () => {
-            if (snowflake) {
-                const snowflakeRect = snowflake.getBoundingClientRect();
                 
-                if (snowflakeRect.top <= 10) {
-                    snowflake.style.position = 'fixed';
-                    snowflake.style.top = '10px';
-                } else {
-                    snowflake.style.position = 'absolute';
-                    snowflake.style.top = '30px';
+                // Center the menu within the full width container
+                const twoColumnMenu = menu.querySelector('.two-column-menu');
+                if (twoColumnMenu) {
+                    twoColumnMenu.style.margin = '0 auto';
+                    twoColumnMenu.style.maxWidth = '800px';
+                    twoColumnMenu.style.padding = '0 20px';
                 }
-            }
-            
-            const menuRect = menu.getBoundingClientRect();
-            
-            if (menuRect.top <= 10) {
-                menu.classList.add('fixed');
-                placeholder.style.display = 'block';
-                menu.style.backgroundColor = '#f9f9f9';
-                menu.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
             } else {
                 menu.classList.remove('fixed');
-                placeholder.style.display = 'none';
                 menu.style.backgroundColor = 'transparent';
-                menu.style.boxShadow = 'none';
+                
+                // Reset menu styles
+                const twoColumnMenu = menu.querySelector('.two-column-menu');
+                if (twoColumnMenu) {
+                    twoColumnMenu.style.margin = '';
+                    twoColumnMenu.style.maxWidth = '';
+                    twoColumnMenu.style.padding = '';
+                }
             }
         });
     }
     
+    // Ensure snowflake position is updated on window resize
     const setSnowflakePosition = () => {
         if (!snowflake) return;
         
@@ -141,10 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
             snowflake.style.right = 'auto';
         }
     };
-
-    // Ensure snowflake position is updated on window resize
+    
     window.addEventListener('resize', setSnowflakePosition);
-
+    
     // Set initial positions on page load
     setSnowflakePosition();
 }); 

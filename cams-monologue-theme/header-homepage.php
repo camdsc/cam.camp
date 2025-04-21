@@ -3,6 +3,42 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Cache buster: v<?php echo _S_VERSION; ?> -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+    /* Force two-column layout - Version: <?php echo _S_VERSION; ?> */
+    .two-column-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        width: 100% !important;
+        max-width: 800px !important;
+        margin: 0 auto !important;
+    }
+    .menu-column {
+        width: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .left-column {
+        justify-content: flex-end !important;
+        padding-right: 10px !important;
+    }
+    .right-column {
+        justify-content: flex-start !important;
+        padding-left: 10px !important;
+    }
+    .text-right {
+        text-align: right !important;
+        width: 100% !important;
+    }
+    .text-left {
+        text-align: left !important;
+        width: 100% !important;
+    }
+    </style>
     <?php wp_head(); ?>
 </head>
 
@@ -13,55 +49,45 @@
     <header id="masthead" class="site-header homepage-header">
         <div class="title-container">
             <h1 class="monologue"><?php bloginfo('name'); ?></h1>
-            <span class="snowflake">❄️</span>
+            <div class="snowflake-wrapper">
+                <div class="snowflake" title="Toggle menu">
+                    ❄️
+                </div>
+            </div>
         </div>
 
-        <div id="menu">
-            <?php
-            // Display primary menu (or fallback to static links if no menu is set)
-            if (has_nav_menu('primary')) {
-                wp_nav_menu(
-                    array(
-                        'theme_location' => 'primary',
-                        'menu_id'        => 'primary-menu',
-                        'container'      => false,
-                        'menu_class'     => 'menu-items',
-                        'fallback_cb'    => false,
-                        'depth'          => 1,
-                    )
-                );
-            } else {
-                // Fallback static menu
-                echo '<ul class="menu-items">';
-                echo '<li><a href="' . esc_url(home_url('/locate')) . '">LOCATE</a></li>';
-                echo '<li><a href="' . esc_url(home_url('/examine')) . '">EXAMINE</a></li>';
-                echo '</ul>';
-            }
-            ?>
+        <!-- Main Menu: First row - LOCATE and EXAMINE -->
+        <div id="menu" class="two-column-menu">
+            <!-- Left Column -->
+            <div class="menu-column left-column">
+                <ul class="menu-items text-right">
+                    <li><a href="<?php echo esc_url(home_url('/locate')); ?>">LOCATE</a></li>
+                </ul>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="menu-column right-column">
+                <ul class="menu-items text-left">
+                    <li><a href="<?php echo esc_url(home_url('/examine')); ?>">EXAMINE</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div id="expanded-menu">
-            <?php
-            // Display secondary menu (or fallback to static links if no menu is set)
-            if (has_nav_menu('secondary')) {
-                wp_nav_menu(
-                    array(
-                        'theme_location' => 'secondary',
-                        'menu_id'        => 'secondary-menu',
-                        'container'      => false,
-                        'menu_class'     => 'menu-items',
-                        'fallback_cb'    => false,
-                        'depth'          => 1,
-                    )
-                );
-            } else {
-                // Fallback static menu
-                echo '<ul class="menu-items">';
-                echo '<li><a href="' . esc_url(home_url('/chronology')) . '">CHRONOLOGY</a></li>';
-                echo '<li><a href="' . esc_url(home_url('/projects')) . '">VIEW PROJECTS</a></li>';
-                echo '</ul>';
-            }
-            ?>
+        <!-- Expanded Menu: Second row - CHRONOLOGY and VIEW PROJECTS (only shown when toggled) -->
+        <div id="expanded-menu" class="two-column-menu">
+            <!-- Left Column -->
+            <div class="menu-column left-column">
+                <ul class="menu-items text-right">
+                    <li><a href="<?php echo esc_url(home_url('/chronology')); ?>">CHRONOLOGY</a></li>
+                </ul>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="menu-column right-column">
+                <ul class="menu-items text-left">
+                    <li><a href="<?php echo esc_url(home_url('/projects')); ?>">VIEW PROJECTS</a></li>
+                </ul>
+            </div>
         </div>
     </header>
 
